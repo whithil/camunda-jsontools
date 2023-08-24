@@ -1,0 +1,72 @@
+version: "3"
+services:
+
+  database:
+     container_name: camunda-database 
+     build: database/build/.
+     ports:
+       - "9102:5432"
+     networks:
+       - camundaapp-network
+       - default
+     environment:
+      POSTGRES_USER: ${CAMUNDA_POSTGRES_USER}
+      POSTGRES_DB: ${CAMUNDA_POSTGRES_DB}
+      POSTGRES_PASSWORD: ${CAMUNDA_POSTGRES_PASSWORD}
+     volumes:
+       - database:/var/lib/postgresql/data
+       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+     healthcheck:
+      test: pg_isready -U ${CAMUNDA_POSTGRES_USER}
+
+  camunda:
+    build: camunda/.
+    ports:
+      - "9101:8091"
+    depends_on:
+      database:
+        condition: service_started
+      keycloak:
+        condition: service_healthy
+    networks:
+       - camundaapp-network
+       - default
+    env_file:
+      - .env
+
+  keycloak-db:
+    image: postgres:15.3
+    container_name: keycloak-db
+    env_file:
+      - .env
+    healthcheck:
+      test: pg_isready -U ${KC_DB_USERNAME}
+    volumes:
+       - keycloak-db:/var/lib/postgresql/data
+
+  keycloak:
+    build: keycloak/.
+    container_name: keycloak
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    networks:
+      - camundaapp-network
+      - default
+    command: start-dev --import-realm --metrics-enabled=true
+    depends_on:
+      - keycloak-db
+    healthcheck:
+      test: ["CMD", "bash", "/opt/keycloak/custom-health-check.sh"]
+      interval: 5s
+      timeout: 5s
+      retries: 8
+
+volumes:
+  database:
+  keycloak-db:
+
+networks:
+  camundaapp-network:
+    name: camundaapp-network
