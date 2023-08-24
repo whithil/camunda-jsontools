@@ -1,0 +1,3 @@
+[submodule "camunda"]
+	path = camunda
+	url = git@github.com:whithil/camunda-jsontools-spring.git
