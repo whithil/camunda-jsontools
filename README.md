@@ -2,7 +2,7 @@
 
 Ambiente de desenvolvimento para VSCode com estrutura de "docker-compose" contendo:
   - Postgres 14 (para database local, *com extensões PostGis & OGR_FDW ativas*)
-  - Camunda 7.18 SpringBoot, configurado para carregar JSON nativamente via gerador de Bean/Classe em CGLib;
+  - Camunda 7.19 SpringBoot, configurado para carregar JSON nativamente via gerador de Bean/Classe em CGLib;
   - keycloak 21.1.2
 
 ## Configuração do ambiente docker
