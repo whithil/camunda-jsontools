@@ -5,15 +5,15 @@ Ambiente de desenvolvimento para VSCode com estrutura de "docker-compose" conten
   - Camunda 7.18 SpringBoot, configurado para carregar JSON nativamente via gerador de Bean/Classe em CGLib;
   - keycloak 21.1.2
 
-## Instruções de instalação do ambiente dev java em vscode virtualizado
+## Configuração do ambiente docker
 #### Primeiramente, os ajustes iniciais...
 Ao clonar o repositório, procure pelo arquivo [.env.template](https://github.com/whithil/camunda-jsontools/blob/main/.env.template), uma amostra de configuração local que pode ser utilizado como está, bastando
-criar uma cópia com o nome apenas ".env" sem a parte da extensão ".template"
+criar uma cópia com o nome apenas ".env" sem a parte da extensão ".template".
+
 O projeto então estará pronto para ser executado localmente. Caso prefira, aproveite para fazer os ajustes que desejar nas variáveis deste arquivo.
 
 > ⚠️
 > O ambiente docker não irá inicializar corretamente sem um arquivo ".env", assegure-se de realizar esta etapa primeiro, antes de qualquer coisa!
-
 
 ## Trabalhando no Visual Studio Code
 Conforme ilustrado neste trecho de um artigo sobre execução e desenvolvimento em conteiners com vscode:
